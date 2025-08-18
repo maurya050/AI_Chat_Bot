@@ -5,7 +5,7 @@ import ChatBotApp from './components/ChatBotApp'
 const App = () => {
   return (
     <div className='container'>
-      <ChatBotStart />
+      {/* <ChatBotStart /> */}
       <ChatBotApp />
     </div>
   )

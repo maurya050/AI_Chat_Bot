@@ -1,4 +1,5 @@
 import React from 'react'
+import './ChatBotApp.css'
 
 const ChatBotApp = () => {
   return (
@@ -30,12 +31,18 @@ const ChatBotApp = () => {
                 <div className="prompt">Hi, How are you?
                     <span>12:32:42 PM</span>
                 </div>
-                <div className="response">Hi, I'm just a computer program i don't have feeling. 
+                <div className="response">Hi, I'm just a computer program i don't have feeling but I'm here to help you!
                     <span>12:32:42 PM</span>
-                </div>
+                </div> 
+                <div className="typing">Typing...</div>
             </div>
+            <form className='msg-form'>
+                <i className="fa-solid fa-face smile emoji"></i>
+                <input type="text" className='msg-input' placeholder='Type your message here...' />
+                <i className="fa-solid fa-paper-plane"></i>
+                {/* <button type='submit'><i className='bx bx-send'></i></button> */}
+            </form>
         </div>
-      
     </div>
   )
 }
