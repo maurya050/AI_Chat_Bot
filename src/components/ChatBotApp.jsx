@@ -1,7 +1,7 @@
 import React from 'react'
 import './ChatBotApp.css'
 
-const ChatBotApp = () => {
+const ChatBotApp = ({onEndChat}) => {
   return (
     <div className='chat-app'>
         <div className='chat-list'>
@@ -26,7 +26,7 @@ const ChatBotApp = () => {
         <div className="chat-window">
             <div className="chat-title">
                 <h3>T@stBot</h3>
-                <i className="bx bx-chevron-right arrow"></i>
+                <i className="bx bx-chevron-left arrow" onClick={onEndChat}></i>
             </div>
             <div className="chat">
                 <div className="prompt">Hi, How are you?
