@@ -2,16 +2,18 @@
     width: 100%;
     height: 100vh;
     display: flex;
+    background-color: #343541;
 }
 
 .chat-list {
     width: 30%;
     height: 100%;
-    background-color: #0d111a;
+    background-color: #202123;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
+    border-right: 1px solid #4d4d4f;
 }
 
 .chat-list-header {
@@ -19,50 +21,51 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 1rem;
-    color: #7b8ebc;
+    padding: 2rem;
+    color: #ececf1;
+    /* border-bottom: 1px solid #4d4d4f; */
 }
 
 .chat-list-header h2 {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 2rem;
-    text-transform: uppercase;
+    font-size: 1.6rem;
+    font-weight: 500;
 }
 
 .chat-list-header i {
-    font-size: 2.5rem;
+    font-size: 2rem;
     cursor: pointer;
+    color: #ececf1;
 }
 
 .chat-list-item {
     width: 100%;
-    height: 6rem;
-    background-color: #131927;
-    padding: 0.5rem 1rem;
+    padding: 1rem;
+    margin: 0.5rem 0;
     border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 .chat-list-item.active {
-    background: linear-gradient(135deg, #f42f5f, #8e25bf);
+    background-color: #343541;
 }
 
 .chat-list-item h4 {
-    font-size: 1.6rem;
-    font-weight: 300;
-    color: #ddd;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #ececf1;
 }
 
-.chat-list-item.active h4 {
-    color: #fff;
+.chat-list-item:hover {
+    background-color: #2a2b32;
 }
 
 .chat-list-item i {
-    font-size: 2.5rem;
-    color: #f42f5f;
+    font-size: 1.6rem;
+    color: #8e8ea0;
     cursor: pointer;
 }
 
@@ -71,31 +74,40 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    background-color: #343541;
 }
 
 .chat-title {
     width: 100%;
     min-height: 8rem;
-    background-color: #0d111a;
+    background-color: #343541;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-right: 2rem;
+    justify-content: center;
+    /* Center the content */
+    padding: 0 2rem;
+    position: relative;
+    /* Add this to help position the arrow */
 }
 
 .chat-title h3 {
     font-family: 'Exo 2', sans-serif;
-    font-size: 2rem;
+    font-size: 3rem;
     text-transform: uppercase;
     color: #fff;
     letter-spacing: 0.1rem;
+    /* The title will be centered by default now */
 }
 
 .arrow {
     font-size: 4rem;
     color: #7b8ebc;
-    transform: rotate(180deg);
     cursor: pointer;
+    position: absolute;
+    /* Position absolutely */
+    right: 2rem;
+    /* Place it 2rem from the right */
 }
 
 .chat {
@@ -115,24 +127,24 @@
 .prompt,
 .response {
     max-width: 80%;
-    padding: 2rem;
-    font-size: 1.6rem;
-    color: #fff;
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    border-radius: 0.8rem;
+    position: relative;
 }
 
 .prompt {
-    background: linear-gradient(135deg, #f42f5f, #8e25bf);
     align-self: flex-end;
-    border-radius: 3rem 0 3rem 3rem;
-    text-align: right;
+    background-color: #444654;
+    color: #ececf1;
 }
 
 .response {
-    background: linear-gradient(135deg, #fe8d5c, #fe4d57);
-    border-radius: 0 3rem 3rem 3rem;
     align-self: flex-start;
-    text-align: left;
+    background-color: #343541;
+    color: #ececf1;
+    border: 1px solid #4d4d4f;
 }
 
 .prompt span,
@@ -148,18 +160,17 @@
     font-size: 1.6rem;
     color: #7b8ebc;
     margin-top: auto;
-    margin-bottom: -3rem;
+    margin-bottom: 1rem;
 }
 
 .msg-form {
     width: 100%;
-    min-height: 10rem;
-    background-color: #161c2c;
+    padding: 2rem;
+    background-color: #343541;
     display: flex;
     align-items: center;
-    box-shadow: 0 -0.2rem 0.5rem rgba(0, 0, 0, 0.1);
-    padding-right: 5rem;
-    position: relative;
+    gap: 1.5rem;
+    border-top: 1px solid #4d4d4f;
 }
 
 .msg-form i {
@@ -181,18 +192,18 @@
 }
 
 .msg-input {
-    height: 100%;
-    flex-grow: 1;
-    background-color: transparent;
-    border: none;
-    font-size: 1.8rem;
-    color: #7b8ebc;
+    flex: 1;
+    padding: 1.2rem 1.5rem;
+    background-color: #40414f;
+    border: 1px solid #4d4d4f;
+    border-radius: 0.8rem;
+    font-size: 1.4rem;
+    color: #ececf1;
 }
 
 .msg-input::placeholder {
-    font-size: 1.8rem;
-    font-weight: 300;
-    color: #7b8ebc;
+    color: #8e8ea0;
+    font-size: 1.4rem;
 }
 
 .msg-input:focus::placeholder {
