@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ChatBotApp.css";
 
-const ChatBotApp = ({ onEndChat, chat, setChat }) => {
+const ChatBotApp = ({
+  onEndChat,
+  chats,
+  setChats,
+  activeChat,
+  setActiveChat,
+  onNewChat,
+}) => {
   const [inputValue, setInputValue] = React.useState("");
-  const [messages, setMessages] = React.useState(chat[0]?.messages || []);
+  const [messages, setMessages] = React.useState(chats[0]?.messages || []);
+
+  useEffect(() => {
+    const activeChatObj = chats.find((c) => c.id === activeChat);
+    if (activeChatObj) {
+      setMessages(activeChat ? activeChatObj.messages : []);
+    }
+  }, [chats, activeChat]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -22,36 +36,57 @@ const ChatBotApp = ({ onEndChat, chat, setChat }) => {
     setMessages(updatedMessages);
     setInputValue("");
 
-    const updatedChat = chat.map((c, index) => {
-      if (index === 0) {
+    const updatedChat = chats.map((c) => {
+      if (c.id === activeChat) {
         return { ...c, messages: updatedMessages };
       }
       return c;
     });
-    setChat(updatedChat);
+    setChats(updatedChat);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-        }       
-    };  
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const handleSelectChat = (id) => {
+    setActiveChat(id);
+  };
+
+  const handleDeleteChat = (id) => {
+    const updatedChats = chats.filter((c) => c.id !== id);
+    setChats(updatedChats);
+    if (id === activeChat && updatedChats.length > 0) {
+      setActiveChat(updatedChats[0].id);
+    } else if (updatedChats.length === 0) {
+      setActiveChat(null);
+    }
+  };
 
   return (
     <div className="chat-app">
       <div className="chat-list">
         <div className="chat-list-header">
           <h2>Chat List</h2>
-          <i className="bx bx-edit-alt new-chat"></i>
+          <i className="bx bx-edit-alt new-chat" onClick={onNewChat}></i>
         </div>
-        {chat.map((c, index) => (
+        {chats.map((c) => (
           <div
-            key={index}
-            className={`chat-list-item ${index === 0 ? "active" : ""}`}
+            key={c.id}
+            className={`chat-list-item ${c.id === activeChat ? "active" : ""}`}
+            onClick={() => handleSelectChat(c.id)}
           >
-            <h4>{c.id}</h4>
-            <i className="bx bx-x-circle"></i>
+            <h4>{c.displayId}</h4>
+            <i
+              className="bx bx-x-circle"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteChat(c.id);
+              }}
+            ></i>
           </div>
         ))}
       </div>
