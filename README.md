@@ -180,18 +180,6 @@ We welcome contributions from the community! Here's how you can help:
    git push origin feature/your-feature-name
    ```
 
-6. **Create a Pull Request**
-   - Provide a clear description of your changes
-   - Reference any related issues
-   - Include screenshots if applicable
-
-### Code Standards
-
-- **Code Style**: Follow ESLint rules and existing patterns
-- **Commit Messages**: Use conventional commit format (`feat:`, `fix:`, `docs:`, etc.)
-- **Testing**: Ensure all functionality works as expected
-- **Documentation**: Update README and comments as needed
-
 ### Areas for Contribution
 
 - 🐛 Bug fixes and improvements
@@ -201,21 +189,6 @@ We welcome contributions from the community! Here's how you can help:
 - 🔧 Performance optimizations
 - 🧪 Testing implementation
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🙏 Acknowledgments
-
-- **OpenAI** for providing the powerful GPT-4o-mini API
-- **React Team** for the excellent framework
-- **Vite Team** for the lightning-fast build tool
-- **Vercel** for seamless deployment platform
-- **Community Contributors** for their valuable input and improvements
-
-## 📞 Support
-
-For questions, issues, or feature requests:
 
 - **GitHub Issues**: [Create an issue](https://github.com/maurya050/AI_Chat_Bot/issues)
 - **Discussions**: Use GitHub Discussions for general questions
