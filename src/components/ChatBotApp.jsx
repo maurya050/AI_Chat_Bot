@@ -16,7 +16,6 @@ const ChatBotApp = ({
   const [isTyping, setIsTyping] = React.useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
   const chatEndRef = React.useRef(null);
-
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
   useEffect(() => {
@@ -25,6 +24,11 @@ const ChatBotApp = ({
       setMessages(activeChat ? activeChatObj.messages : []);
     }
   }, [chats, activeChat]);
+
+  useEffect(() => {
+    const storedMessages = JSON.parse(localStorage.getItem(activeChat)) || [];
+    setMessages(storedMessages);
+  }, [activeChat]);
 
   const handleEmojiSelect = (emoji) => {
     setInputValue((prev) => prev + emoji.native);
@@ -52,12 +56,14 @@ const ChatBotApp = ({
 
       const updatedMessages = [...messages, newMessage];
       setMessages(updatedMessages);
+      localStorage.setItem(activeChat, JSON.stringify(updatedMessages));
       setInputValue("");
 
       const updatedChat = chats.map((c) =>
         c.id === activeChat ? { ...c, messages: updatedMessages } : c
       );
       setChats(updatedChat);
+      localStorage.setItem("chats", JSON.stringify(updatedChat));
       setIsTyping(true);
 
       try {
@@ -96,6 +102,10 @@ const ChatBotApp = ({
 
         const finalMessagesWithResponse = [...updatedMessages, responseMessage];
         setMessages(finalMessagesWithResponse);
+        localStorage.setItem(
+          activeChat,
+          JSON.stringify(finalMessagesWithResponse)
+        );
         setIsTyping(false);
         const finalUpdatedChat = chats.map((c) =>
           c.id === activeChat
@@ -103,6 +113,7 @@ const ChatBotApp = ({
             : c
         );
         setChats(finalUpdatedChat);
+        localStorage.setItem("chats", JSON.stringify(finalUpdatedChat));
       } catch (error) {
         console.error("OpenAI API Error:", error);
         // Add error handling UI here if needed
@@ -125,6 +136,8 @@ const ChatBotApp = ({
   const handleDeleteChat = (id) => {
     const updatedChats = chats.filter((c) => c.id !== id);
     setChats(updatedChats);
+    localStorage.setItem("chats", JSON.stringify(updatedChats));
+    localStorage.removeItem(id);
     if (id === activeChat && updatedChats.length > 0) {
       setActiveChat(updatedChats[0].id);
     } else if (updatedChats.length === 0) {
@@ -136,7 +149,6 @@ const ChatBotApp = ({
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-
   }, [messages]);
 
   return (
@@ -185,7 +197,7 @@ const ChatBotApp = ({
             </div>
           ))}
           {isTyping && <div className="typing">Typing...</div>}
-        <div ref={chatEndRef} />
+          <div ref={chatEndRef} />
         </div>
         <form
           className="msg-form"
@@ -193,14 +205,17 @@ const ChatBotApp = ({
             e.preventDefault();
           }}
         >
-          <i className="fa-solid fa-face-smile emoji" onClick={() => {
-            setShowEmojiPicker(!showEmojiPicker);
-          }}></i>
-            {showEmojiPicker && (
-                <div className="picker">
-                <Picker data={data} onEmojiSelect={handleEmojiSelect} />
-                </div>
-            )}
+          <i
+            className="fa-solid fa-face-smile emoji"
+            onClick={() => {
+              setShowEmojiPicker(!showEmojiPicker);
+            }}
+          ></i>
+          {showEmojiPicker && (
+            <div className="picker">
+              <Picker data={data} onEmojiSelect={handleEmojiSelect} />
+            </div>
+          )}
           <input
             type="text"
             className="msg-input"
