@@ -11,6 +11,10 @@ const ChatBotApp = ({
 }) => {
   const [inputValue, setInputValue] = React.useState("");
   const [messages, setMessages] = React.useState(chats[0]?.messages || []);
+  const [isTyping, setIsTyping] = React.useState(false);
+  const chatEndRef = React.useRef(null);
+
+  const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
   useEffect(() => {
     const activeChatObj = chats.find((c) => c.id === activeChat);
@@ -23,33 +27,83 @@ const ChatBotApp = ({
     setInputValue(e.target.value);
   };
 
-  const sendMessage = (e) => {
-    if (inputValue.trim() === "") return;
+  const sendMessage = async () => {
+    try {
+      if (inputValue.trim() === "") return;
 
-    const newMessage = {
-      type: "prompt",
-      text: inputValue,
-      timestamp: new Date().toLocaleTimeString(),
-    };
+      const newMessage = {
+        type: "prompt",
+        text: inputValue,
+        timestamp: new Date().toLocaleTimeString(),
+      };
 
-    if (!activeChat) {
-      onNewChat(inputValue);
-      setInputValue("");
-    } else {
+      if (!activeChat) {
+        onNewChat(inputValue);
+        setInputValue("");
+        return;
+      }
+
       const updatedMessages = [...messages, newMessage];
       setMessages(updatedMessages);
       setInputValue("");
 
-      const updatedChat = chats.map((c) => {
-        if (c.id === activeChat) {
-          return { ...c, messages: updatedMessages };
-        }
-        return c;
-      });
+      const updatedChat = chats.map((c) =>
+        c.id === activeChat ? { ...c, messages: updatedMessages } : c
+      );
       setChats(updatedChat);
+      setIsTyping(true);
+
+      try {
+        const response = await fetch(
+          "https://api.openai.com/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+              model: "gpt-3.5-turbo",
+              messages: [{ role: "user", content: inputValue }],
+              max_tokens: 500,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`API call failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.choices || !data.choices[0]) {
+          throw new Error("Invalid response from OpenAI");
+        }
+
+        const chatResponse = data.choices[0].message.content.trim();
+        const responseMessage = {
+          type: "response",
+          text: chatResponse,
+          timestamp: new Date().toLocaleTimeString(),
+        };
+
+        const finalMessagesWithResponse = [...updatedMessages, responseMessage];
+        setMessages(finalMessagesWithResponse);
+        setIsTyping(false);
+        const finalUpdatedChat = chats.map((c) =>
+          c.id === activeChat
+            ? { ...c, messages: finalMessagesWithResponse }
+            : c
+        );
+        setChats(finalUpdatedChat);
+      } catch (error) {
+        console.error("OpenAI API Error:", error);
+        // Add error handling UI here if needed
+      }
+    } catch (error) {
+      console.error("Message sending error:", error);
     }
   };
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -71,12 +125,25 @@ const ChatBotApp = ({
     }
   };
 
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+  }, [messages]);
+
   return (
     <div className="chat-app">
       <div className="chat-list">
         <div className="chat-list-header">
           <h2>Chat List</h2>
-          <i className="bx bx-edit-alt new-chat" onClick={onNewChat}></i>
+          <i
+            className="bx bx-edit-alt new-chat"
+            onClick={(e) => {
+              e.stopPropagation();
+              onNewChat("");
+            }}
+          ></i>
         </div>
         {chats.map((c) => (
           <div
@@ -110,7 +177,8 @@ const ChatBotApp = ({
               <span>{message.timestamp}</span>
             </div>
           ))}
-          <div className="typing">Typing...</div>
+          {isTyping && <div className="typing">Typing...</div>}
+        <div ref={chatEndRef} />
         </div>
         <form
           className="msg-form"
@@ -127,7 +195,10 @@ const ChatBotApp = ({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
           />
-          <i className="fa-solid fa-paper-plane" onClick={sendMessage}></i>
+          <i
+            className="fa-solid fa-paper-plane"
+            onClick={() => sendMessage()}
+          ></i>
         </form>
       </div>
     </div>
