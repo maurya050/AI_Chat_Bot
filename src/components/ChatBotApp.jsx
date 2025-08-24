@@ -184,7 +184,7 @@ const ChatBotApp = ({
       <div className="chat-window">
         <div className="chat-title">
           <h3>T@stBot</h3>
-          <i className="bx bx-chevron-left arrow" onClick={onEndChat}></i>
+          <i className="bx bx-chevron-right arrow" onClick={onEndChat}></i>
         </div>
         <div className="chat">
           {messages.map((message, index) => (
@@ -192,7 +192,13 @@ const ChatBotApp = ({
               key={index}
               className={message.type === "prompt" ? "prompt" : "response"}
             >
-              {message.text}
+              <div dangerouslySetInnerHTML={{ 
+                __html: message.text
+                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+                  .replace(/\d+\.\s(.*?)(?=\d+\.|$)/g, '<li>$1</li>') // Numbered lists
+                  .replace(/\n{2,}/g, '</p><p>') // Paragraphs
+                  .split('\n').join('<br/>') // Line breaks
+              }} />
               <span>{message.timestamp}</span>
             </div>
           ))}
