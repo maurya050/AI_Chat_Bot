@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import "./ChatBotApp.css";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 const ChatBotApp = ({
   onEndChat,
@@ -12,6 +14,7 @@ const ChatBotApp = ({
   const [inputValue, setInputValue] = React.useState("");
   const [messages, setMessages] = React.useState(chats[0]?.messages || []);
   const [isTyping, setIsTyping] = React.useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
   const chatEndRef = React.useRef(null);
 
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
@@ -22,6 +25,10 @@ const ChatBotApp = ({
       setMessages(activeChat ? activeChatObj.messages : []);
     }
   }, [chats, activeChat]);
+
+  const handleEmojiSelect = (emoji) => {
+    setInputValue((prev) => prev + emoji.native);
+  };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -63,7 +70,7 @@ const ChatBotApp = ({
               Authorization: `Bearer ${apiKey}`,
             },
             body: JSON.stringify({
-              model: "gpt-3.5-turbo",
+              model: "gpt-4o-mini-2024-07-18",
               messages: [{ role: "user", content: inputValue }],
               max_tokens: 500,
             }),
@@ -186,7 +193,14 @@ const ChatBotApp = ({
             e.preventDefault();
           }}
         >
-          <i className="fa-solid fa-face-smile emoji"></i>
+          <i className="fa-solid fa-face-smile emoji" onClick={() => {
+            setShowEmojiPicker(!showEmojiPicker);
+          }}></i>
+            {showEmojiPicker && (
+                <div className="picker">
+                <Picker data={data} onEmojiSelect={handleEmojiSelect} />
+                </div>
+            )}
           <input
             type="text"
             className="msg-input"
@@ -194,6 +208,7 @@ const ChatBotApp = ({
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
+            onFocus={() => setShowEmojiPicker(false)}
           />
           <i
             className="fa-solid fa-paper-plane"
