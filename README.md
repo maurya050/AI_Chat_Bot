@@ -40,7 +40,7 @@ AI ChatBot is a sophisticated, real-time conversational interface powered by Ope
 
 ### Deployment & Hosting
 - **Vercel** - Serverless deployment platform
-- **Production URL**: [ai-chat-bot-beta-peach.vercel.app](https://ai-chat-bot-beta-peach.vercel.app/)
+- **Production URL**: [ai-chat-bot-beta-peach.vercel.app](https://ai-chat-bot-seven-woad.vercel.app/)
 
 ## 🚀 Getting Started
 
@@ -219,7 +219,7 @@ For questions, issues, or feature requests:
 
 - **GitHub Issues**: [Create an issue](https://github.com/maurya050/AI_Chat_Bot/issues)
 - **Discussions**: Use GitHub Discussions for general questions
-- **Live Demo**: [ai-chat-bot-beta-peach.vercel.app](https://ai-chat-bot-beta-peach.vercel.app/)
+- **Live Demo**: [ai-chat-bot-beta-peach.vercel.app](https://ai-chat-bot-seven-woad.vercel.app/)
 
 ---
 
