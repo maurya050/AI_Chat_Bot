@@ -11,20 +11,6 @@ An intelligent chatbot powered by AI for natural language conversations and auto
 
 **[👉 View Live Demo](https://ai-chat-bot-seven-woad.vercel.app/)**
 
-## 📑 Table of Contents
-
-- [Features](#-features)
-- [Demo Screenshots](#-demo-screenshots)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Environment Setup](#environment-setup)
-  - [Running the Application](#running-the-application)
-- [Project Structure](#-project-structure)
-- [Deployment](#-deployment)
-- [Contributing](#-contributing)
-- [License](#-license)
 
 ## ✨ Features
 
@@ -100,7 +86,6 @@ Make sure you have the following installed on your machine:
 2. **Configure API keys** (add your AI service API keys to the environment file)
    ```env
    VITE_AI_API_KEY=your_api_key_here
-   VITE_AI_API_URL=your_api_endpoint_here
    ```
 
 ### Running the Application
@@ -148,82 +133,10 @@ AI_Chat_Bot/
 └── README.md             # Project documentation
 ```
 
-## 🚀 Deployment
-
-This application is automatically deployed to Vercel. Every push to the main branch triggers a new deployment.
-
-### Manual Deployment
-
-1. **Build the project**
-   ```bash
-   npm run build
-   ```
-
-2. **Deploy to Vercel**
-   ```bash
-   # Install Vercel CLI
-   npm i -g vercel
-   
-   # Deploy
-   vercel --prod
-   ```
-
-### Environment Variables
-
-Make sure to set up the following environment variables in your deployment platform:
-
-- `VITE_AI_API_KEY` - Your AI service API key
-- `VITE_AI_API_URL` - Your AI service endpoint URL
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-### Development Workflow
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Make your changes**
-4. **Run linting**
-   ```bash
-   npm run lint
-   ```
-5. **Commit your changes**
-   ```bash
-   git commit -m 'Add some amazing feature'
-   ```
-6. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-7. **Open a Pull Request**
-
-### Code Style
-
-- Follow the existing code style
-- Use ESLint for code formatting
-- Write meaningful commit messages
-- Add comments for complex logic
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
 
 **maurya050**
 - GitHub: [@maurya050](https://github.com/maurya050)
 - Project Link: [https://github.com/maurya050/AI_Chat_Bot](https://github.com/maurya050/AI_Chat_Bot)
-
-## 🙏 Acknowledgments
-
-- React team for the amazing framework
-- Vite team for the fast build tool
-- Vercel for seamless deployment
-- All contributors and users of this project
 
 ---
 
